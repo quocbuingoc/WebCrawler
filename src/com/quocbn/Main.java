@@ -6,5 +6,4 @@ public class Main {
 		// TODO Auto-generated method stub
 		new BasicWebCrawler().getPageLinks("http://www.google.com/");
 	}
-
 }
