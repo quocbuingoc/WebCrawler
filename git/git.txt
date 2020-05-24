@@ -1,1 +1,249 @@
-a
+# Git Basic
+1 .Git config
+git config --global user.name "John Doe"
+git config --global user.email "john@example.com"
+--global được sử dụng để áp dụng cho tất cả các projects. Nếu bạn ko sử dụng --global thì settings sẽ chỉ dùng cho riêng project đó.
+2.Giúp Git bỏ qua file modes
+cd project/
+git config core.filemode false
+Câu lệnh trên hữu dụng khi chúng ta không cần quan tâm đến quyền truy cập files (ví dụ như khi sử dụng Windows).
+
+3.Liệt kê những settings đang sử dụng
+git config --list
+
+4.Khởi tạo Git repo cho code có sẵn
+cd existing-project/
+git init
+
+5.Clone một remote repo
+git clone https://github.com/user/repository.git
+
+6.Xem thông tin trợ giúp cho một câu lệnh git
+git help clone (Ví dụ cậu lệnh clone)
+
+7.Update và merge branch hiện tại với một remote repo
+cd repo/
+git pull origin master
+
+với origin là remote repo, master là remote branch.
+
+Nếu bạn không muốn merge những thay đổi của bạn, hãy sử dụng git fetch
+
+8.Liệt kê các remote urls
+git remote -v
+
+9.Thay đổi origin url
+git remote set-url origin https://github.com/repo.git
+
+10.Thêm remote repo
+git remote add remote-name https://github.com/user/repo.git
+
+11.Xem thay đổi (chưa đc add) của những file hiện tại
+git diff
+
+12.Xem thay đổi (đã được add, chưa commit)
+git diff --cached
+
+13.Xem thay đổi giữa local và master
+git diff origin/master
+
+14.Xem thay đổi giữa hai commits
+git diff COMMIT1_ID COMMIT2_ID
+
+15.Xem những files thay đổi giữa hai commits
+git diff --name-only COMMIT1_ID COMMIT2_ID
+
+16.Xem những files thay đổi tại một commit bất kỳ
+git diff-tree -no-commit-id --name-only -r COMMIT_ID
+hoặc
+
+git show --pretty="format:" --name-only COMMIT_ID
+
+
+17.Xem thay đổi trước khi push
+git diff --cached origin/master
+
+18.Xem thông tin cụ thể của một commit
+git show COMMIT_ID
+
+19.Kiểm tra status của working tree
+git status
+
+20.Tạo vài thay đổi, rồi commit
+git add changed_file.txt
+git add folder-with-changed-files/
+git commit -m "Commiting changes"
+
+21.Đổi tên/Di chuyển/Xoá files
+git rm removeme.txt tmp/crap.txt
+git mv file oldname.txt file_newname.txt
+git commit -m "deleteing 2 files, renaming 1"
+
+22.Đổi message của commit cuối
+git commit --amend -m "New commit mesage"
+
+23.Push local commits sang nhánh remote
+git push origin master
+
+24.Xem commit history
+git log
+
+25.Xem commit history cho hai commits gần nhất
+git log -2
+
+26.Xem commit history cho hai commits gần nhất, bao gồm cả thay đổi
+git log -p -2
+
+27.Xem commit history dưới dạng một dòng
+git log --pretty=oneline
+
+28.Revert một commit rồi push
+git revert COMMIT_ID
+git push origin master
+
+29.Revert đến thời điểm trước một commit
+git reset COMMIT_ID
+git reset --soft HEAD@{1}
+git commit -m "Revert to COMMIT_ID"
+git reset --hard
+
+30.Undo commit gần nhất, vẫn giữ thay đổi ở local
+git reset --soft HEAD~1
+
+31.Undo commit gần nhất, không giữ thay đổi ở local
+git reset --hard HEAD~1
+
+32.Undo commit gần nhất, vẫn giữ thay đổi ở index
+git reset --mixed HEAD~1
+hoặc
+
+git reset HEAD~1
+
+33.Undo commits chưa push
+git reset origin/master
+
+34.Reset về trạng thái của remote
+git fetch origin
+git reset --hard origin/master
+
+35.Xem các nhánh local
+git branch
+
+36.Xem tất cả các nhánh
+git branch -a
+
+37.Tạo một patch
+git diff > patch-issue-1.patch
+
+38.Thêm một file rồi tạo patch
+git add newfile
+git diff --staged > patch-issue-2.patch
+
+39.Thêm một file, thay đổi rồi tạo patch
+git add newfile
+git diff HEAD > patch-issue-2.patch
+
+40.Tạo patch từ một commit
+git format-patch COMMIT_ID
+
+41.Tạo patch từ hai commit cuối
+git format-patch HEAD~2
+
+42.Tạo patch từ tất cả những commits chưa push
+git format-patch origin/master
+
+43.Tạo patch chứa dữ liệu nhị phân
+git format-patch --binary --full-index origin/master
+
+44.Apply một patch
+git apply -v patch-name.patch
+
+45.Apply một patch được tạo bằng format-patch
+git am patch1.patch
+
+46.Tạo một tag
+git tag 7.x-1.3
+
+47.Push một tag
+git push origin 7.x-1.3
+
+48.Tạo một nhánh
+git checkout master
+git branch new-branch-name
+Lưu ý với hai câu lệnh trên thì chúng ta chưa chuyển sang nhánh mới, mà vẫn ở nhánh master. Phải sử dụng thêm git checkout new-branch-name để chuyển nhánh.
+
+Ngoài ra có thể tạo nhánh mới và chuyển sang luôn bằng 1 câu git checkout -b new-branch-name
+
+49.Chuyển nhánh
+git checkout new-branch-name
+
+50.Xem commit history so với branch hiện tại
+git cherry -v master
+master ở đây là branch mà bạn muốn so sánh
+
+51.Merge commit từ branch khác
+git checkout master
+git merge branch-name
+
+Ở đây chúng ta merge các commits của branch-name vào master.
+
+52.Merge branch mà không commit
+git merge branch-name --no-commit --no-ff
+
+53.Xem thay đổi giữa state hiện tại và một branch
+git diff branch-name
+
+54.Xem thay đổi trong một file, giữa state hiện tại và một branch
+git diff branch-name path/to/file
+
+55.Xoá branch
+git branch -d branch-name
+
+56. Push lên một branch
+git push origin branch-name
+
+
+57.Lấy tất cả các branches
+git fetch orgin
+
+58.Lấy thư mục root
+git rev-parse --show-toplevel
+
+59.Xoá các file bị xoá ở local trên repo
+git rm $(git ls-files --deleted)
+
+60.Xoá toàn bộ các files chưa đc track
+git clean -f
+
+61.xoá cả folder:
+
+git clean -f -d
+
+62.xem các file trước khi xoá:
+
+git clean -n -f -d
+
+63.Unstage các files
+git reset HEAD file.txt
+
+64.Xem tag gần nhất
+git describe --tags `git rev-list --tag --max-count=1`
+
+65.Liệt kê các nhánh theo trình tự sử dụng gần nhất
+git for-each-ref --sort=-committerdate refs/heads/ | head
+
+66.Tar cả project, ngoại trừ thư mục .git
+cd ..
+tar cJf project.tar.xz project/ --exclude-vcs
+
+67.Tar tất cả các files bị thay đổi ở local
+git diff --name-only | xargs tar -cf project.tar -T -
+
+68.Tìm conflict
+grep -H -r "<<<" *
+grep -H -r ">>>" *
+grep -H -r '^=======$' *
+
+69.Apply một patch không sử dụng git
+patch < file.patch
+
